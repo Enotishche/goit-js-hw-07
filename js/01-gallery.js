@@ -11,9 +11,9 @@ galleryEl.addEventListener("click", (event) => {
   event.preventDefault();
   const instance = basicLightbox.create(`<img src="${event.target.dataset.source}">`, {
     onShow: (instance) => {
-      galleryEl.addEventListener("keydown", onKeyDown);
+      document.addEventListener("keydown", onKeyDown);
     },
-    onClose: (instance) => { galleryEl.removeEventListener("keydown", onKeyDown); },
+    onClose: (instance) => { document.removeEventListener("keydown", onKeyDown); },
   });
   instance.show();
 
