@@ -4,12 +4,29 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 const galleryEl = document.querySelector(".gallery");
-galleryEl.addEventListener("click", onMakeBigPic);
+const galleryList = makeBigGalleryPic(galleryItems);
+galleryEl.insertAdjacentHTML("beforeend", galleryList);
 
+galleryEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  const instance = basicLightbox.create(`<img src="${event.target.dataset.source}">`, {
+    onShow: (instance) => {
+      galleryEl.addEventListener("keydown", onKeyDown);
+    },
+    onClose: (instance) => { galleryEl.removeEventListener("keydown", onKeyDown); },
+  });
+  instance.show();
 
-
-const galleryList = galleryItems.map(({ preview, original, description }) => {
-  return`<div class="gallery__item">
+  function onKeyDown(event) {
+    if (event.key === "Escape") {
+      instance.close();
+    }
+    
+  }
+});
+  function makeBigGalleryPic(galleryItems) {
+    return galleryItems.map(({ preview, original, description }) => {
+      return `<div class="gallery__item">
   <a class="gallery__link" href="${original}">
   <img
       class="gallery__image"
@@ -20,25 +37,7 @@ const galleryList = galleryItems.map(({ preview, original, description }) => {
   </a>
 </div>`}).join(" ");
 
-galleryEl.insertAdjacentHTML("beforeend", galleryList);
-
-let instance
-function onMakeBigPic (event) {
-    event.preventDefault();
-    if (event.currentTarget === event.target) { return; }
-    instance = basicLightbox.create(`<img src="${event.target.dataset.source}">`);
-    instance.show()
-    window.addEventListener("keydown", onKeyDown);
-}
-
-function onKeyDown(event) {
-    if (event.key === "Escape") {
-        instance.close()
-        window.removeEventListener("keydown", onKeyDown)
-        
-    }
-    
-} 
+  }
 
 
 
