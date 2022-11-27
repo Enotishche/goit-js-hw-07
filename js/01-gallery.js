@@ -4,7 +4,7 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 const galleryEl = document.querySelector(".gallery");
-const galleryList = makeBigGalleryImg(galleryItems);
+const galleryList = makeBigGalleryPic(galleryItems);
 galleryEl.insertAdjacentHTML("beforeend", galleryList);
 
 galleryEl.addEventListener("click", (event) => {
@@ -24,7 +24,7 @@ galleryEl.addEventListener("click", (event) => {
     
   }
 });
-  function makeBigGalleryImg(galleryItems) {
+  function makeBigGalleryPic(galleryItems) {
     return galleryItems.map(({ preview, original, description }) => {
       return `<div class="gallery__item">
   <a class="gallery__link" href="${original}">
